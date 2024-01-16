@@ -80,3 +80,7 @@ vscode-panels {
   display: flex;
   height: 665px;
 }
+
+.passthrough-info {
+  margin: 0 8px;
+}

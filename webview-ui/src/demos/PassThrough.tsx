@@ -4,8 +4,12 @@ export function PassThrough() {
   return (
     <section className="component-container">
       <section className="component-example">
-        <VSCodeTextField placeholder="Line 1">Entry</VSCodeTextField>
-        <VSCodeTextField placeholder="2">Vcpu</VSCodeTextField>
+        <VSCodeTextField className="passthrough-info" placeholder="Line 1">
+          Entry
+        </VSCodeTextField>
+        <VSCodeTextField className="passthrough-info" placeholder="2">
+          Vcpu
+        </VSCodeTextField>
       </section>
     </section>
   );
