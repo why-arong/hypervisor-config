@@ -2,16 +2,14 @@
 
 This sample extension demonstrates every React component in the Webview UI Toolkit for Visual Studio Code.
 
-![A screenshot of the sample extension.](./assets/component-gallery-react.png)
-
 ## Run The Sample
 
 ```bash
 # Copy sample extension locally
-npx degit microsoft/vscode-webview-ui-toolkit-samples/frameworks/component-gallery-react component-gallery-react
+npx degit why-arong/hypervisor-vscext hypervisor-vscext
 
 # Navigate into sample directory
-cd component-gallery-react
+cd hypervisor-vscext
 
 # Install dependencies for both the extension and webview UI source code
 npm run install:all
