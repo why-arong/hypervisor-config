@@ -1,0 +1,82 @@
+.component-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#data-grid-row,
+#panels-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 1rem;
+  padding: 1rem;
+  border: 2px dashed #7b61ff;
+  border-radius: 5px;
+}
+
+.component-container > * {
+  margin: 0.25rem 0;
+}
+
+.component-example {
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.component-example > p {
+  margin-bottom: 0.5rem;
+}
+
+vscode-data-grid,
+vscode-panels {
+  border: 2px dashed #7b61ff;
+  border-radius: 5px;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.host-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.col-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.col-container > .generate-button {
+  margin-left: auto;
+}
+.row-container {
+  display: flex;
+  align-items: center;
+}
+.row-container p {
+  margin: 0 20px; /* 원하는 간격 설정 */
+}
+.wrap-container {
+  display: flex;
+}
+
+.passthrough-container {
+  display: flex;
+  align-items: center;
+}
+
+.physical-resources {
+  display: flex;
+  height: 665px;
+}
