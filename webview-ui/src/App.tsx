@@ -16,11 +16,18 @@ import { Devices } from "./demos/Devices";
 import { Memory } from "./demos/Memory";
 import { PhysicalResources } from "./demos/PhysicalResources";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
+import { vscode } from "./utilities/vscode";
 
 import "./App.css";
 import "./codicon.css";
 
 function App() {
+  function handleHowdyClick() {
+    vscode.postMessage({
+      command: "hello",
+      text: "Hey there partner! 🤠",
+    });
+  }
   return (
     <main>
       <h1> Perseous</h1>
@@ -38,7 +45,7 @@ function App() {
             <PhysicalResources></PhysicalResources>
           </div>
 
-          <VSCodeButton className="generate-button" appearance="primary">
+          <VSCodeButton onClick={handleHowdyClick} className="generate-button" appearance="primary">
             Generate
           </VSCodeButton>
         </div>
