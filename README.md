@@ -1,8 +1,4 @@
-# Component Gallery (React)
-
-This sample extension demonstrates every React component in the Webview UI Toolkit for Visual Studio Code.
-
-## Run The Sample
+## Run
 
 ```bash
 # Copy sample extension locally

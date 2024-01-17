@@ -1,3 +1,6 @@
+.control {
+  background: wheat;
+}
 .component-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -78,7 +81,7 @@ vscode-panels {
 
 .physical-resources {
   display: flex;
-  height: 665px;
+  height: 650px;
 }
 
 .passthrough-info {
