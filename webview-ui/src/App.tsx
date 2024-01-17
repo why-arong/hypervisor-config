@@ -25,7 +25,7 @@ function App() {
   function handleHowdyClick() {
     vscode.postMessage({
       command: "hello",
-      text: "Hey there partner! 🤠",
+      text: "Hey there perseous! 😄",
     });
   }
   return (
