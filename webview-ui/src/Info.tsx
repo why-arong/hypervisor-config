@@ -1,6 +1,6 @@
 import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react";
 
-export function PassThrough() {
+export function Info() {
   return (
     <section className="component-container">
       <section className="component-example">

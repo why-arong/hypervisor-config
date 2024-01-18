@@ -1,6 +1,6 @@
 import { VSCodeDropdown, VSCodeOption, VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 
-export function DropdownDemo() {
+export function Host() {
   return (
     <section className="component-container">
       <h2>Host</h2>
