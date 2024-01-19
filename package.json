@@ -13,7 +13,15 @@
         "command": "perseous.showUI",
         "title": "perseous"
       }
-    ]
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "perseous.treeView",
+          "name": "Virtual Machine(VM)"
+        }
+      ]
+    }
   },
   "scripts": {
     "install:all": "npm install && cd webview-ui && npm install",
