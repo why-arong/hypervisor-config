@@ -1,0 +1,55 @@
+soc: "sr6x7"
+
+revision: 0
+
+gic: &gic
+  name: "gicv3"
+
+  region: [0x6D800000, 0x100000]
+
+uart0: &uart0
+  name: "uart"
+
+  region: [0x12345678, 0x87654321]
+
+  interrupt: [3]
+
+vm0: &domain0
+  name: VM0
+
+  entry: 0x28080000
+
+  cluster: 0
+
+  core:
+    - [0, 128]
+
+  memory:
+    - [0x28080000, 0x40000]
+
+    - [0x60000000, 0x20000]
+
+  devices:
+    - *gic
+
+    - *uart0
+
+vm1: &domain1
+  name: VM1
+
+  entry: 0x280C0000
+
+  cluster: 0
+
+  core:
+    - [0, 128]
+
+  memory:
+    - [0x280C0000, 0x40000]
+
+    - [0x60040000, 0x20000]
+
+domains:
+  - *domain0
+
+  - *domain1
