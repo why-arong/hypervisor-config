@@ -5,6 +5,11 @@ import { VMSideBar } from "./sidebar";
 import * as path from "path";
 import * as yaml from "yaml";
 
+interface VmConfig {
+  name: string;
+  // Add other properties as needed
+}
+
 export function activate(context: ExtensionContext) {
   vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
     if (editor) {
@@ -12,16 +17,21 @@ export function activate(context: ExtensionContext) {
 
       if (path.basename(filePath) === "config.yml") {
         const fileContent = editor.document.getText();
-        try {
-          const parsedYaml = yaml.parse(fileContent);
+        const parsedYaml = yaml.parse(fileContent);
 
-          // vm0의 이름을 출력
-          if (parsedYaml && parsedYaml.vm0 && parsedYaml.vm0.name) {
-            console.log("vm0의 이름:", parsedYaml.vm0.name);
-          }
-        } catch (error) {
-          console.error("YAML 파싱 오류:", (error as Error).message);
-        }
+        const treeDataProvider = new VMSideBar(parsedYaml);
+        const treeView = vscode.window.createTreeView("perseous.treeView", {
+          treeDataProvider,
+        });
+
+        context.subscriptions.push(treeView);
+        const disposable = vscode.commands.registerCommand("myExtension.logMessage", () => {
+          vscode.window.showInformationMessage("Button clicked!");
+          console.log("Button clicked!");
+        });
+        context.subscriptions.push(disposable);
+        createVmStatusBarItem(parsedYaml.vm0);
+        createVmStatusBarItem(parsedYaml.vm1);
       }
     }
   });
@@ -33,10 +43,11 @@ export function activate(context: ExtensionContext) {
 
   // Add command to the extension context
   context.subscriptions.push(showGalleryCommand);
-  const treeDataProvider = new VMSideBar();
-  const treeView = vscode.window.createTreeView("perseous.treeView", {
-    treeDataProvider,
-  });
+}
 
-  context.subscriptions.push(treeView);
+function createVmStatusBarItem(vmConfig: VmConfig) {
+  const sidebarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+  sidebarItem.text = `$(chip) ${vmConfig.name}`;
+  sidebarItem.command = "myExtension.logMessage";
+  sidebarItem.show();
 }

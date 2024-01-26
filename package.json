@@ -19,6 +19,10 @@
         {
           "id": "perseous.treeView",
           "name": "Virtual Machine(VM)"
+        },
+        {
+          "id": "myExtension",
+          "name": "My Extension"
         }
       ]
     }
