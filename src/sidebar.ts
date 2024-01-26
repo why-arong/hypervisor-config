@@ -1,10 +1,10 @@
 import * as vscode from "vscode";
 
 export class VMSideBar implements vscode.TreeDataProvider<vscode.TreeItem> {
-  private yamlData: any;
+  private vmConfig: any;
 
-  constructor(yamlData: any) {
-    this.yamlData = yamlData;
+  constructor(vmConfig: any) {
+    this.vmConfig = vmConfig;
   }
   getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
     return element;
@@ -13,14 +13,15 @@ export class VMSideBar implements vscode.TreeDataProvider<vscode.TreeItem> {
   getChildren(element?: vscode.TreeItem): vscode.ProviderResult<vscode.TreeItem[]> {
     // If element is undefined, it means it's the root of the tree
     if (!element) {
-      // return [
-      //   new vscode.TreeItem("VM0"),
-      //   new vscode.TreeItem("VM1"),
-      //   // Add more items as needed
-      // ];
-      if (this.yamlData && this.yamlData.vm0 && this.yamlData.vm0.name) {
-        return [new vscode.TreeItem(this.yamlData.vm0.name)];
-      }
+      // if (this.vmConfig && this.vmConfig.vm0 && this.vmConfig.vm0.name) {
+      //   return [new vscode.TreeItem(this.vmConfig.vm0.name)];
+      // }
+
+      const map1 =
+        "[" + this.vmConfig.memory[0].map((x: number) => "0X" + x.toString(16)).toString() + "]";
+      const map2 =
+        "[" + this.vmConfig.memory[1].map((x: number) => "0X" + x.toString(16)).toString() + "]";
+      return [new vscode.TreeItem(map1), new vscode.TreeItem(map2)];
     }
 
     // You can handle child items for a specific parent here if needed

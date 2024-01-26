@@ -19,19 +19,19 @@ export function activate(context: ExtensionContext) {
         const fileContent = editor.document.getText();
         const parsedYaml = yaml.parse(fileContent);
 
-        const treeDataProvider = new VMSideBar(parsedYaml);
-        const treeView = vscode.window.createTreeView("perseous.treeView", {
-          treeDataProvider,
-        });
+        // const disposable = vscode.commands.registerCommand("myExtension.logMessage", () => {
+        //   vscode.window.showInformationMessage("Button clicked!");
+        //   const treeDataProvider = new VMSideBar(parsedYaml);
+        //   const treeView = vscode.window.createTreeView("memory.treeView", {
+        //     treeDataProvider,
+        //   });
 
-        context.subscriptions.push(treeView);
-        const disposable = vscode.commands.registerCommand("myExtension.logMessage", () => {
-          vscode.window.showInformationMessage("Button clicked!");
-          console.log("Button clicked!");
-        });
-        context.subscriptions.push(disposable);
-        createVmStatusBarItem(parsedYaml.vm0);
-        createVmStatusBarItem(parsedYaml.vm1);
+        //   context.subscriptions.push(treeView);
+        // });
+        // context.subscriptions.push(disposable);
+        const a = createVmStatusBarItem(parsedYaml.vm0, "myExtension.vm0");
+        const b = createVmStatusBarItem(parsedYaml.vm1, "myExtension.vm1");
+        context.subscriptions.push(a, b);
       }
     }
   });
@@ -45,9 +45,19 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(showGalleryCommand);
 }
 
-function createVmStatusBarItem(vmConfig: VmConfig) {
+function createVmStatusBarItem(vmConfig: VmConfig, command: string) {
+  const disposable = vscode.commands.registerCommand(command, () => {
+    vscode.window.showInformationMessage("Button clicked!");
+    const treeDataProvider = new VMSideBar(vmConfig);
+    const treeView = vscode.window.createTreeView("memory.treeView", {
+      treeDataProvider,
+    });
+  });
+
   const sidebarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
   sidebarItem.text = `$(chip) ${vmConfig.name}`;
-  sidebarItem.command = "myExtension.logMessage";
+  sidebarItem.command = command;
   sidebarItem.show();
+
+  return sidebarItem;
 }

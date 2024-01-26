@@ -17,8 +17,8 @@
     "views": {
       "explorer": [
         {
-          "id": "perseous.treeView",
-          "name": "Virtual Machine(VM)"
+          "id": "memory.treeView",
+          "name": "Memory"
         },
         {
           "id": "myExtension",
