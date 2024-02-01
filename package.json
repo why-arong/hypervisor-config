@@ -23,6 +23,11 @@
         {
           "id": "myExtension",
           "name": "My Extension"
+        },
+        {
+          "type": "webview",
+          "id": "calicoColors.colorsView",
+          "name": "Calico Colors"
         }
       ]
     }

@@ -4,13 +4,19 @@ import * as vscode from "vscode";
 import { VMSideBar } from "./sidebar";
 import * as path from "path";
 import * as yaml from "yaml";
-
+// import { HostViewProvider } from "./hostview";
 interface VmConfig {
   name: string;
   // Add other properties as needed
 }
 
 export function activate(context: ExtensionContext) {
+  // const provider = new HostViewProvider(context.extensionUri);
+
+  // context.subscriptions.push(
+  //   vscode.window.registerWebviewViewProvider(HostViewProvider.viewType, provider)
+  // );
+
   vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
     if (editor) {
       const filePath = editor.document.fileName;
@@ -18,7 +24,7 @@ export function activate(context: ExtensionContext) {
       if (path.basename(filePath) === "config.yml") {
         const fileContent = editor.document.getText();
         const parsedYaml = yaml.parse(fileContent);
-
+        ComponentGalleryPanel.render(context.extensionUri);
         // const disposable = vscode.commands.registerCommand("myExtension.logMessage", () => {
         //   vscode.window.showInformationMessage("Button clicked!");
         //   const treeDataProvider = new VMSideBar(parsedYaml);
