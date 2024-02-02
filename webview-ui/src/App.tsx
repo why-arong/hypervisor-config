@@ -4,15 +4,12 @@ import "./codicon.css";
 import Menu from "./Menu";
 import PassThrough from "./PassThrough";
 import { vscode } from "./utilities/vscode";
-import fs from "fs";
-import yaml from "yaml";
-
-import React, { useState, useEffect } from "react";
-import { set } from "yaml/dist/schema/yaml-1.1/set";
+import { useState, useEffect } from "react";
+import { initialData } from "./data/initialData";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [data, setData] = useState("abc");
+  const [data, setData] = useState(initialData);
   useEffect(() => {
     const messageHandler = (event: any) => {
       const message = event.data;
@@ -20,9 +17,9 @@ function App() {
       setData((prevData) => {
         vscode.postMessage({
           command: "hello",
-          text: prevData,
+          text: message.data,
         });
-        return message.path;
+        return message.data;
       });
     };
 
@@ -38,7 +35,7 @@ function App() {
       <h1> Perseous </h1>
       <Menu></Menu>
       <Host></Host>
-      <PassThrough data={data}></PassThrough>
+      <PassThrough yamlData={data}></PassThrough>
       {/* <section className="component-row">
         <DividerDemo></DividerDemo>
         <LinkDemo></LinkDemo>
