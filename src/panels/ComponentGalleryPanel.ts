@@ -51,7 +51,7 @@ export class ComponentGalleryPanel {
         // Panel view type
         "showGallery",
         // Panel title
-        "Component Gallery (React)",
+        "Perseous",
         // The editor column the panel should be displayed in
         ViewColumn.One,
         // Extra panel configurations
@@ -68,6 +68,7 @@ export class ComponentGalleryPanel {
 
       ComponentGalleryPanel.currentPanel = new ComponentGalleryPanel(panel, extensionUri);
     }
+    ComponentGalleryPanel.currentPanel._panel.webview.postMessage({ command: "refactor" });
   }
 
   /**

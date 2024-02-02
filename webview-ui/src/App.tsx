@@ -3,11 +3,19 @@ import "./App.css";
 import "./codicon.css";
 import Menu from "./Menu";
 import PassThrough from "./PassThrough";
+import { vscode } from "./utilities/vscode";
 
 function App() {
+  window.addEventListener("message", (event) => {
+    const message = event.data; // The JSON data our extension sent
+    vscode.postMessage({
+      command: "hello",
+      text: "Hey there perseous! 😄",
+    });
+  });
   return (
     <main>
-      <h1> Perseodasdasus</h1>
+      <h1> Perseous </h1>
       <Menu></Menu>
       <Host></Host>
       <PassThrough></PassThrough>
