@@ -5,11 +5,15 @@ import { Devices } from "./demos/Devices";
 import { PhysicalResources } from "./demos/PhysicalResources";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 
-export default function PassThrough() {
+interface PassThroughProps {
+  data: string;
+}
+
+export default function PassThrough(props: PassThroughProps) {
   function handleHowdyClick() {
     vscode.postMessage({
       command: "hello",
-      text: "Hey there perseous! 😄",
+      text: props.data,
     });
   }
   return (

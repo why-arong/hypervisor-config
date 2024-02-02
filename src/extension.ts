@@ -4,6 +4,8 @@ import * as vscode from "vscode";
 import { VMSideBar } from "./sidebar";
 import * as path from "path";
 import * as yaml from "yaml";
+import * as fs from "fs";
+
 // import { HostViewProvider } from "./hostview";
 interface VmConfig {
   name: string;
@@ -29,6 +31,10 @@ export function activate(context: ExtensionContext) {
   });
   // Create the show gallery command
   const showGalleryCommand = commands.registerCommand("perseous.showUI", () => {
+    // const yamlString = fs.readFileSync(context.extensionUri.path + "/config.yml", "utf8");
+    // console.log();
+    // const data = yaml.parse(yamlString);
+    // console.log("Parsed YAML:", data.soc);
     ComponentGalleryPanel.render(context.extensionUri);
   });
   // Add command to the extension context

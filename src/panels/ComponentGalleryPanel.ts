@@ -1,6 +1,8 @@
 import { Disposable, Webview, WebviewPanel, window, Uri, ViewColumn } from "vscode";
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
+import * as fs from "fs";
+import * as yaml from "yaml";
 
 /**
  * This class manages the state and behavior of ComponentGallery webview panels.
@@ -62,13 +64,22 @@ export class ComponentGalleryPanel {
           localResourceRoots: [
             Uri.joinPath(extensionUri, "out"),
             Uri.joinPath(extensionUri, "webview-ui/build"),
+            Uri.joinPath(extensionUri, "config.yml"),
           ],
         }
       );
 
       ComponentGalleryPanel.currentPanel = new ComponentGalleryPanel(panel, extensionUri);
     }
-    ComponentGalleryPanel.currentPanel._panel.webview.postMessage({ command: "refactor" });
+    const yamlUri = Uri.joinPath(extensionUri, "config.yml");
+    // console.log("Im here!!!," + yamlUri);
+    // const yamlString = fs.readFileSync(yamlUri.path, "utf8");
+    // const data = yaml.parse(yamlString);
+    // console.log("Parsed YAML:", data.soc);
+    ComponentGalleryPanel.currentPanel._panel.webview.postMessage({
+      command: "refactor",
+      path: yamlUri.path,
+    });
   }
 
   /**
