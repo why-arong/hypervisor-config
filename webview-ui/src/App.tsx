@@ -9,9 +9,10 @@ import { initialData } from "./data/initialData";
 import { YamlContext } from "./YamlContext";
 
 function App() {
-  const data = initialData;
+  const [yaml, setYaml] = useState(initialData);
+  const value = { yaml, setYaml };
   return (
-    <YamlContext.Provider value={data}>
+    <YamlContext.Provider value={value}>
       <main>
         <h1> Perseous </h1>
         <Menu></Menu>

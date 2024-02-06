@@ -9,11 +9,12 @@ import { useContext } from "react";
 import { YamlContext } from "./YamlContext";
 
 export default function PassThrough() {
-  const yamlData = useContext(YamlContext);
+  const { yaml, setYaml } = useContext(YamlContext);
   function handleHowdyClick() {
+    setYaml({ ...yaml, soc: "Howdy!" });
     vscode.postMessage({
       command: "hello",
-      text: yamlData.soc,
+      text: yaml.soc,
     });
   }
 
@@ -23,7 +24,7 @@ export default function PassThrough() {
       <div className="col-container">
         <div className="row-container">
           <div className="col-container">
-            <Info entry={yamlData.vm0.entry}></Info>
+            <Info entry={yaml.vm0.entry}></Info>
             <Memory></Memory>
             <Devices></Devices>
           </div>
