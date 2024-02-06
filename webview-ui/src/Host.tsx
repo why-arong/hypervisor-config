@@ -1,17 +1,20 @@
 import { VSCodeDropdown, VSCodeOption, VSCodeButton } from "@vscode/webview-ui-toolkit/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { YamlContext } from "./YamlContext";
 
 const vendorOption = ["ST", "NXP"];
 
 export function Host() {
+  const { yaml, setYaml } = useContext(YamlContext);
   const [deviceOptions, setDeviceOptions] = useState(["SR6X7"]);
   const handleVendorChange = (event: any) => {
     const selectedValue = event.target.value;
     if (selectedValue === "ST") {
       setDeviceOptions(["SR6x7"]);
+      setYaml({ ...yaml, vendor: "ST" });
     } else if (selectedValue === "NXP") {
-      // Handle NXP vendor if needed
       setDeviceOptions(["S32E270", "S32E275"]);
+      setYaml({ ...yaml, vendor: "NXP" });
     }
   };
   return (
