@@ -1,15 +1,15 @@
 import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react";
 
 interface InfoProps {
-  entry: string;
+  entry: number;
 }
 
 export function Info(props: InfoProps) {
-  const entry: string = props.entry;
+  const entry: number = props.entry;
   return (
     <section className="component-container">
       <section className="component-example">
-        <VSCodeTextField className="passthrough-info" placeholder={entry}>
+        <VSCodeTextField className="passthrough-info" placeholder={entry.toString()}>
           Entry
         </VSCodeTextField>
         <VSCodeTextField className="passthrough-info" placeholder="2">
