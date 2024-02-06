@@ -44,7 +44,7 @@ export class ComponentGalleryPanel {
    *
    * @param extensionUri The URI of the directory containing the extension.
    */
-  public static render(extensionUri: Uri) {
+  public static render(extensionUri: Uri, yamlData: string) {
     if (ComponentGalleryPanel.currentPanel) {
       // If the webview panel already exists reveal it
       ComponentGalleryPanel.currentPanel._panel.reveal(ViewColumn.One);
@@ -77,10 +77,10 @@ export class ComponentGalleryPanel {
     // const yamlString = fs.readFileSync(yamlUri.path, "utf8");
     // const data = yaml.parse(yamlString);
     // console.log("Parsed YAML:", data.soc);
-    const data = this._parseYaml(extensionUri);
+    // const data = this._parseYaml(extensionUri);
     ComponentGalleryPanel.currentPanel._panel.webview.postMessage({
       command: "refactor",
-      data: data,
+      data: yamlData,
     });
   }
 
@@ -179,11 +179,11 @@ export class ComponentGalleryPanel {
       this._disposables
     );
   }
-  private static _parseYaml(extensionUri: Uri) {
-    const yamlUri = Uri.joinPath(extensionUri, "config.yml");
-    // console.log("Im here!!!," + yamlUri.path);
-    const yamlString = fs.readFileSync(yamlUri.path, "utf8");
-    const data = yaml.parse(yamlString);
-    return JSON.stringify(data);
-  }
+  // private static _parseYaml(extensionUri: Uri) {
+  //   const yamlUri = Uri.joinPath(extensionUri, "config.yml");
+  //   // console.log("Im here!!!," + yamlUri.path);
+  //   const yamlString = fs.readFileSync(yamlUri.path, "utf8");
+  //   const data = yaml.parse(yamlString);
+  //   return JSON.stringify(data);
+  // }
 }
