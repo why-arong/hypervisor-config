@@ -2,8 +2,10 @@ import { Disposable, Webview, WebviewPanel, window, Uri, ViewColumn } from "vsco
 import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import * as fs from "fs";
+import * as path from "path";
 import * as yaml from "yaml";
-import { parse } from "path";
+// import { parse } from "path";
+import * as vscode from "vscode";
 
 /**
  * This class manages the state and behavior of ComponentGallery webview panels.
@@ -165,11 +167,28 @@ export class ComponentGalleryPanel {
       (message: any) => {
         const command = message.command;
         const text = message.text;
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        let workspaceFolderPath = "";
+        if (workspaceFolders && workspaceFolders.length > 0) {
+          const firstWorkspaceFolderUri = workspaceFolders[0].uri;
+          workspaceFolderPath = vscode.Uri.parse(firstWorkspaceFolderUri.toString(true)).fsPath;
+          // vscode.window.showInformationMessage("Current workspace root: " + workspaceFolderPath);
+        } else {
+          // vscode.window.showErrorMessage("No workspace folders found.");
+        }
+        const outputYamlFilePath = path.join(workspaceFolderPath, "output.yaml");
 
         switch (command) {
           case "hello":
             // Code that should run in response to the hello message command
             window.showInformationMessage(text);
+            fs.writeFile(outputYamlFilePath, text, (err) => {
+              if (err) {
+                vscode.window.showErrorMessage("Failed to create output.yaml file: " + err.message);
+              } else {
+                vscode.window.showInformationMessage("output.yaml file created successfully.");
+              }
+            });
             return;
           // Add more switch case statements here as more webview message commands
           // are created within the webview context (i.e. inside media/main.js)
