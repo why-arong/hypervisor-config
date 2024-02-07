@@ -10,13 +10,12 @@ import { YamlContext } from "./YamlContext";
 
 export default function PassThrough() {
   const { yaml, setYaml } = useContext(YamlContext);
-  const jsonString = JSON.stringify(yaml, null, 2);
+  const configInfo = JSON.stringify(yaml, null, 2);
 
   function handleHowdyClick() {
-    // TODO: now you should send the yaml object to the extension!
     vscode.postMessage({
-      command: "hello",
-      text: jsonString,
+      command: "generate",
+      configInfo,
     });
   }
 

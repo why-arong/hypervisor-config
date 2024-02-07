@@ -166,7 +166,7 @@ export class ComponentGalleryPanel {
     webview.onDidReceiveMessage(
       (message: any) => {
         const command = message.command;
-        const text = message.text;
+        const configInfo = message.configInfo;
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let workspaceFolderPath = "";
         if (workspaceFolders && workspaceFolders.length > 0) {
@@ -179,10 +179,10 @@ export class ComponentGalleryPanel {
         const outputYamlFilePath = path.join(workspaceFolderPath, "output.yaml");
 
         switch (command) {
-          case "hello":
+          case "generate":
             // Code that should run in response to the hello message command
-            window.showInformationMessage(text);
-            fs.writeFile(outputYamlFilePath, text, (err) => {
+            window.showInformationMessage(configInfo);
+            fs.writeFile(outputYamlFilePath, configInfo, (err) => {
               if (err) {
                 vscode.window.showErrorMessage("Failed to create output.yaml file: " + err.message);
               } else {
