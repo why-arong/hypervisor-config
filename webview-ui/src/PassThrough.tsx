@@ -10,7 +10,7 @@ import { YamlContext } from "./YamlContext";
 
 export default function PassThrough() {
   const { yaml, setYaml } = useContext(YamlContext);
-  const jsonString = JSON.stringify(yaml);
+  const jsonString = JSON.stringify(yaml, null, 2);
 
   function handleHowdyClick() {
     // TODO: now you should send the yaml object to the extension!
