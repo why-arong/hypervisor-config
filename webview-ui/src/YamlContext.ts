@@ -2,12 +2,12 @@ import { createContext } from "react";
 import { initialData } from "./data/initialData";
 
 export const YamlContext = createContext<YamlContextData>({
-  yaml: initialData,
-  setYaml: () => {},
+  yamlData: initialData,
+  setYamlData: () => {},
 });
 
 export interface YamlContextData {
-  yaml: {
+  yamlData: {
     soc: string;
     revision: number;
     gic: {
@@ -51,5 +51,5 @@ export interface YamlContextData {
       }[];
     }[];
   };
-  setYaml: (yaml: any) => void;
+  setYamlData: (yaml: any) => void;
 }

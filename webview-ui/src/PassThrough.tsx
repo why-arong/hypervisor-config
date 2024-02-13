@@ -9,15 +9,14 @@ import { useContext } from "react";
 import { YamlContext } from "./YamlContext";
 
 export default function PassThrough() {
-  const { yaml, setYaml } = useContext(YamlContext);
-  const configInfo = JSON.stringify(yaml, null, 2);
-
-  function handleHowdyClick() {
+  const { yamlData, setYamlData } = useContext(YamlContext);
+  const configInfo = JSON.stringify(yamlData);
+  const handleGenerator = () => {
     vscode.postMessage({
       command: "generate",
       configInfo,
     });
-  }
+  };
 
   return (
     <div className="component-container">
@@ -25,14 +24,14 @@ export default function PassThrough() {
       <div className="col-container">
         <div className="row-container">
           <div className="col-container">
-            <Info entry={yaml.vm0.entry}></Info>
+            <Info entry={yamlData.vm0.entry}></Info>
             <Memory></Memory>
             <Devices></Devices>
           </div>
           <PhysicalResources></PhysicalResources>
         </div>
 
-        <VSCodeButton onClick={handleHowdyClick} className="generate-button" appearance="primary">
+        <VSCodeButton onClick={handleGenerator} className="generate-button" appearance="primary">
           Generate
         </VSCodeButton>
       </div>

@@ -5,16 +5,16 @@ import { YamlContext } from "./YamlContext";
 const vendorOption = ["ST", "NXP"];
 
 export function Host() {
-  const { yaml, setYaml } = useContext(YamlContext);
+  const { yamlData, setYamlData } = useContext(YamlContext);
   const [deviceOptions, setDeviceOptions] = useState(["SR6X7"]);
   const handleVendorChange = (event: any) => {
     const selectedValue = event.target.value;
     if (selectedValue === "ST") {
       setDeviceOptions(["SR6x7"]);
-      setYaml({ ...yaml, vendor: "ST" });
+      setYamlData({ ...yamlData, vendor: "ST" });
     } else if (selectedValue === "NXP") {
       setDeviceOptions(["S32E270", "S32E275"]);
-      setYaml({ ...yaml, vendor: "NXP" });
+      setYamlData({ ...yamlData, vendor: "NXP" });
     }
   };
   return (

@@ -9,8 +9,8 @@ import { initialData } from "./data/initialData";
 import { YamlContext } from "./YamlContext";
 
 function App() {
-  const [yaml, setYaml] = useState(initialData);
-  const value = { yaml, setYaml };
+  const [yamlData, setYamlData] = useState(initialData);
+  const value = { yamlData, setYamlData };
   return (
     <YamlContext.Provider value={value}>
       <main>

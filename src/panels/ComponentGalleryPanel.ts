@@ -3,9 +3,9 @@ import { getUri } from "../utilities/getUri";
 import { getNonce } from "../utilities/getNonce";
 import * as fs from "fs";
 import * as path from "path";
-import * as yaml from "yaml";
-// import { parse } from "path";
 import * as vscode from "vscode";
+import * as yaml from "js-yaml";
+import { config } from "process";
 
 /**
  * This class manages the state and behavior of ComponentGallery webview panels.
@@ -49,7 +49,7 @@ export class ComponentGalleryPanel {
   public static render(extensionUri: Uri, yamlData: string) {
     if (ComponentGalleryPanel.currentPanel) {
       // If the webview panel already exists reveal it
-      ComponentGalleryPanel.currentPanel._panel.reveal(ViewColumn.One);
+      ComponentGalleryPanel.currentPanel._panel.reveal(ViewColumn.Two);
     } else {
       // If a webview panel does not already exist create and show a new one
       const panel = window.createWebviewPanel(
@@ -58,7 +58,7 @@ export class ComponentGalleryPanel {
         // Panel title
         "Perseous",
         // The editor column the panel should be displayed in
-        ViewColumn.One,
+        ViewColumn.Two,
         // Extra panel configurations
         {
           // Enable JavaScript in the webview
@@ -74,12 +74,6 @@ export class ComponentGalleryPanel {
 
       ComponentGalleryPanel.currentPanel = new ComponentGalleryPanel(panel, extensionUri);
     }
-    // const yamlUri = Uri.joinPath(extensionUri, "config.yml");
-    // console.log("Im here!!!," + yamlUri.path);
-    // const yamlString = fs.readFileSync(yamlUri.path, "utf8");
-    // const data = yaml.parse(yamlString);
-    // console.log("Parsed YAML:", data.soc);
-    // const data = this._parseYaml(extensionUri);
     ComponentGalleryPanel.currentPanel._panel.webview.postMessage({
       command: "refactor",
       data: yamlData,
@@ -139,7 +133,7 @@ export class ComponentGalleryPanel {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'nonce-${nonce}'; font-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
           <link rel="stylesheet" type="text/css" href="${stylesUri}">
-          <title>Component Gallery (React)</title>
+          <title>perseous</title>
           <style nonce="${nonce}">
             @font-face {
               font-family: "codicon";
@@ -166,7 +160,19 @@ export class ComponentGalleryPanel {
     webview.onDidReceiveMessage(
       (message: any) => {
         const command = message.command;
-        const configInfo = message.configInfo;
+        let configInfo = message.configInfo;
+        console.log(configInfo);
+        const parsed = JSON.parse(configInfo);
+        configInfo = yaml.dump(parsed, {
+          lineWidth: -1,
+          noCompatMode: true,
+          noArrayIndent: true,
+          indent: 2,
+          styles: {
+            "!!int": "hexadecimal",
+          },
+        });
+        console.log(configInfo);
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let workspaceFolderPath = "";
         if (workspaceFolders && workspaceFolders.length > 0) {
@@ -176,12 +182,12 @@ export class ComponentGalleryPanel {
         } else {
           // vscode.window.showErrorMessage("No workspace folders found.");
         }
-        const outputYamlFilePath = path.join(workspaceFolderPath, "output.yaml");
+        const outputYamlFilePath = path.join(workspaceFolderPath, "output.yml");
 
         switch (command) {
           case "generate":
             // Code that should run in response to the hello message command
-            window.showInformationMessage(configInfo);
+            window.showInformationMessage("recieved generate message from webview.");
             fs.writeFile(outputYamlFilePath, configInfo, (err) => {
               if (err) {
                 vscode.window.showErrorMessage("Failed to create output.yaml file: " + err.message);
@@ -198,11 +204,4 @@ export class ComponentGalleryPanel {
       this._disposables
     );
   }
-  // private static _parseYaml(extensionUri: Uri) {
-  //   const yamlUri = Uri.joinPath(extensionUri, "config.yml");
-  //   // console.log("Im here!!!," + yamlUri.path);
-  //   const yamlString = fs.readFileSync(yamlUri.path, "utf8");
-  //   const data = yaml.parse(yamlString);
-  //   return JSON.stringify(data);
-  // }
 }

@@ -4,7 +4,6 @@ import * as vscode from "vscode";
 import { VMSideBar } from "./sidebar";
 import * as path from "path";
 import * as yaml from "yaml";
-import * as fs from "fs";
 
 interface VmConfig {
   name: string;
