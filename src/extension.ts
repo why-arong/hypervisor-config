@@ -12,6 +12,17 @@ interface VmConfig {
 export function activate(context: ExtensionContext) {
   let currentPanel: vscode.WebviewPanel | undefined = undefined;
 
+  vscode.workspace.onDidSaveTextDocument((document) => {
+    if (document.fileName.endsWith("config.yml")) {
+      const fileContent = document.getText();
+      const parsedYaml = yaml.parse(fileContent);
+      const yamlData = JSON.stringify(parsedYaml);
+      ComponentGalleryPanel.render(context.extensionUri, yamlData);
+      const a = createVmStatusBarItem(parsedYaml.vm0, "myExtension.vm0");
+      const b = createVmStatusBarItem(parsedYaml.vm1, "myExtension.vm1");
+      context.subscriptions.push(a, b);
+    }
+  });
   vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
     if (editor) {
       const filePath = editor.document.fileName;

@@ -11,6 +11,14 @@ import { YamlContext } from "./YamlContext";
 function App() {
   const [yamlData, setYamlData] = useState(initialData);
   const value = { yamlData, setYamlData };
+  window.addEventListener("message", (event) => {
+    const message = event.data;
+    switch (message.command) {
+      case "refactor":
+        setYamlData(JSON.parse(message.data));
+        break;
+    }
+  });
   return (
     <YamlContext.Provider value={value}>
       <main>
