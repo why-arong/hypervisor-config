@@ -5,24 +5,23 @@ import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
 import * as yaml from "js-yaml";
-import { config } from "process";
 
 /**
- * This class manages the state and behavior of ComponentGallery webview panels.
+ * This class manages the state and behavior of Settings webview panels.
  *
  * It contains all the data and methods for:
  *
- * - Creating and rendering ComponentGallery webview panels
+ * - Creating and rendering Settings webview panels
  * - Properly cleaning up and disposing of webview resources when the panel is closed
  * - Setting the HTML (and by proxy CSS/JavaScript) content of the webview panel
  */
-export class ComponentGalleryPanel {
-  public static currentPanel: ComponentGalleryPanel | undefined;
+export class SettingsPanel {
+  public static currentPanel: SettingsPanel | undefined;
   private readonly _panel: WebviewPanel;
   private _disposables: Disposable[] = [];
 
   /**
-   * The ComponentGalleryPanel class private constructor (called only from the render method).
+   * The SettingsPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -47,16 +46,16 @@ export class ComponentGalleryPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri, yamlData: string) {
-    if (ComponentGalleryPanel.currentPanel) {
+    if (SettingsPanel.currentPanel) {
       // If the webview panel already exists reveal it
-      ComponentGalleryPanel.currentPanel._panel.reveal(ViewColumn.Two);
+      SettingsPanel.currentPanel._panel.reveal(ViewColumn.Two);
     } else {
       // If a webview panel does not already exist create and show a new one
       const panel = window.createWebviewPanel(
         // Panel view type
-        "showGallery",
+        "settingsPanel",
         // Panel title
-        "Perseous",
+        "Hypervisor Config Settings",
         // The editor column the panel should be displayed in
         ViewColumn.Two,
         // Extra panel configurations
@@ -72,9 +71,9 @@ export class ComponentGalleryPanel {
         }
       );
 
-      ComponentGalleryPanel.currentPanel = new ComponentGalleryPanel(panel, extensionUri);
+      SettingsPanel.currentPanel = new SettingsPanel(panel, extensionUri);
     }
-    ComponentGalleryPanel.currentPanel._panel.webview.postMessage({
+    SettingsPanel.currentPanel._panel.webview.postMessage({
       command: "init",
       data: yamlData,
     });
@@ -84,7 +83,7 @@ export class ComponentGalleryPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    ComponentGalleryPanel.currentPanel = undefined;
+    SettingsPanel.currentPanel = undefined;
 
     // Dispose of the current webview panel
     this._panel.dispose();
@@ -158,10 +157,9 @@ export class ComponentGalleryPanel {
    */
   private _setWebviewMessageListener(webview: Webview) {
     webview.onDidReceiveMessage(
-      (message: any) => {
+      (message) => {
         const command = message.command;
         let configInfo = message.configInfo;
-        console.log(configInfo);
         const parsed = JSON.parse(configInfo);
         configInfo = yaml.dump(parsed, {
           lineWidth: -1,
@@ -172,7 +170,6 @@ export class ComponentGalleryPanel {
             "!!int": "hexadecimal",
           },
         });
-        console.log(configInfo);
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let workspaceFolderPath = "";
         if (workspaceFolders && workspaceFolders.length > 0) {
