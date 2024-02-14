@@ -3,7 +3,6 @@ import "./App.css";
 import "./codicon.css";
 import Menu from "./Menu";
 import PassThrough from "./PassThrough";
-import { vscode } from "./utilities/vscode";
 import { useState, useEffect } from "react";
 import { initialData } from "./data/initialData";
 import { YamlContext } from "./YamlContext";
@@ -11,14 +10,16 @@ import { YamlContext } from "./YamlContext";
 function App() {
   const [yamlData, setYamlData] = useState(initialData);
   const value = { yamlData, setYamlData };
-  window.addEventListener("message", (event) => {
-    const message = event.data;
-    switch (message.command) {
-      case "refactor":
-        setYamlData(JSON.parse(message.data));
-        break;
-    }
-  });
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      const message = event.data;
+      switch (message.command) {
+        case "init":
+          setYamlData(JSON.parse(message.data));
+          break;
+      }
+    });
+  }, []);
   return (
     <YamlContext.Provider value={value}>
       <main>

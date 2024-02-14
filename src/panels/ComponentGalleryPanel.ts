@@ -75,7 +75,7 @@ export class ComponentGalleryPanel {
       ComponentGalleryPanel.currentPanel = new ComponentGalleryPanel(panel, extensionUri);
     }
     ComponentGalleryPanel.currentPanel._panel.webview.postMessage({
-      command: "refactor",
+      command: "init",
       data: yamlData,
     });
   }
