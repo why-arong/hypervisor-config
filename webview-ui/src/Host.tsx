@@ -1,6 +1,6 @@
 import { VSCodeDropdown, VSCodeOption, VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 import { useState, useContext } from "react";
-import { YamlContext } from "./YamlContext";
+import { YamlContext } from "./context/YamlContext";
 
 const vendorOption = ["ST", "NXP"];
 

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { initialData } from "./data/initialData";
+import { initialData } from "../data/initialData";
 
 export const YamlContext = createContext<YamlContextData>({
   yamlData: initialData,

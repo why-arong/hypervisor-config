@@ -1,61 +1,40 @@
-import { commands, ExtensionContext } from "vscode";
-import { ComponentGalleryPanel } from "./panels/ComponentGalleryPanel";
-import * as vscode from "vscode";
-// import { VMSideBar } from "./sidebar";
+import { ExtensionContext, TextDocument, TextEditor, workspace, window } from "vscode";
+import { SettingsPanel } from "./panels/SettingsPanel";
 import * as path from "path";
 import * as yaml from "yaml";
-
-// interface VmConfig {
-//   name: string;
-// }
+const configurationFileName = "config.yml";
 
 export function activate(context: ExtensionContext) {
-  vscode.workspace.onDidSaveTextDocument((document) => {
-    if (document.fileName.endsWith("config.yml")) {
-      const fileContent = document.getText();
-      const parsedYaml = yaml.parse(fileContent);
-      const yamlData = JSON.stringify(parsedYaml);
-      ComponentGalleryPanel.render(context.extensionUri, yamlData);
-      // const a = createVmStatusBarItem(parsedYaml.vm0, "myExtension.vm0");
-      // const b = createVmStatusBarItem(parsedYaml.vm1, "myExtension.vm1");
-      // context.subscriptions.push(a, b);
-    }
+  workspace.onDidSaveTextDocument((document: TextDocument) => {
+    handleDocumentChange(context, document);
   });
-  vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor | undefined) => {
-    if (editor) {
-      const filePath = editor.document.fileName;
-      if (path.basename(filePath) === "config.yml") {
-        const fileContent = editor.document.getText();
-        const parsedYaml = yaml.parse(fileContent);
-        const yamlData = JSON.stringify(parsedYaml);
-        ComponentGalleryPanel.render(context.extensionUri, yamlData);
-        // const a = createVmStatusBarItem(parsedYaml.vm0, "myExtension.vm0");
-        // const b = createVmStatusBarItem(parsedYaml.vm1, "myExtension.vm1");
-        // context.subscriptions.push(a, b);
-      }
-    }
+  window.onDidChangeActiveTextEditor((editor: TextEditor | undefined) => {
+    handleEditorChange(context, editor);
   });
-  // const showGalleryCommand = commands.registerCommand("perseous.showUI", () => {
-  //   // ComponentGalleryPanel.render(context.extensionUri);
-  //   vscode.window.showInformationMessage("Button clicked!");
-  // });
-  // Add command to the extension context
-  // context.subscriptions.push(showGalleryCommand);
+  const activeEditor = window.activeTextEditor;
+  if (activeEditor) {
+    handleEditorChange(context, activeEditor);
+  }
 }
 
-// function createVmStatusBarItem(vmConfig: VmConfig, command: string) {
-//   const disposable = vscode.commands.registerCommand(command, () => {
-//     vscode.window.showInformationMessage("Button clicked!");
-//     const treeDataProvider = new VMSideBar(vmConfig);
-//     const treeView = vscode.window.createTreeView("memory.treeView", {
-//       treeDataProvider,
-//     });
-//   });
+function renderUI(context: ExtensionContext, yamlData: string) {
+  SettingsPanel.render(context.extensionUri, yamlData);
+}
 
-//   const sidebarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
-//   sidebarItem.text = `$(chip) ${vmConfig.name}`;
-//   sidebarItem.command = command;
-//   sidebarItem.show();
+function handleDocumentChange(context: ExtensionContext, document: TextDocument) {
+  if (document.fileName.endsWith(configurationFileName)) {
+    const yamlData = convertYamlToJsonString(document.getText());
+    renderUI(context, yamlData);
+  }
+}
 
-//   return sidebarItem;
-// }
+function handleEditorChange(context: ExtensionContext, editor: TextEditor | undefined) {
+  if (editor && path.basename(editor.document.fileName) === configurationFileName) {
+    const yamlData = convertYamlToJsonString(editor.document.getText());
+    renderUI(context, yamlData);
+  }
+}
+function convertYamlToJsonString(fileContent: string): string {
+  const parsedYaml = yaml.parse(fileContent);
+  return JSON.stringify(parsedYaml);
+}
