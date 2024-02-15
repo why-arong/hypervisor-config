@@ -6,7 +6,7 @@ import { PhysicalResources } from "./demos/PhysicalResources";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 // import * as vscode from "vscode";
 import { useContext } from "react";
-import { YamlContext } from "./YamlContext";
+import { YamlContext } from "./context/YamlContext";
 
 export default function PassThrough() {
   const { yamlData, setYamlData } = useContext(YamlContext);
@@ -28,9 +28,8 @@ export default function PassThrough() {
             <Memory></Memory>
             <Devices></Devices>
           </div>
-          <PhysicalResources></PhysicalResources>
+          {/* <PhysicalResources></PhysicalResources> */}
         </div>
-
         <VSCodeButton onClick={handleGenerator} className="generate-button" appearance="primary">
           Generate
         </VSCodeButton>

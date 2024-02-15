@@ -19,8 +19,9 @@
   justify-content: flex-start;
   margin: 1rem;
   padding: 1rem;
-  border: 2px dashed #7b61ff;
+  border: 2px dashed var(--vscode-editor-foreground);
   border-radius: 5px;
+  background-color: var(--vscode-sidebar-background);
 }
 
 .component-container > * {

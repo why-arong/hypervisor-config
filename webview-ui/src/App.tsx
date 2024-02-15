@@ -5,7 +5,7 @@ import Menu from "./Menu";
 import PassThrough from "./PassThrough";
 import { useState, useEffect } from "react";
 import { initialData } from "./data/initialData";
-import { YamlContext } from "./YamlContext";
+import { YamlContext } from "./context/YamlContext";
 
 function App() {
   const [yamlData, setYamlData] = useState(initialData);

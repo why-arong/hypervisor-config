@@ -175,26 +175,22 @@ export class SettingsPanel {
         if (workspaceFolders && workspaceFolders.length > 0) {
           const firstWorkspaceFolderUri = workspaceFolders[0].uri;
           workspaceFolderPath = vscode.Uri.parse(firstWorkspaceFolderUri.toString(true)).fsPath;
-          // vscode.window.showInformationMessage("Current workspace root: " + workspaceFolderPath);
         } else {
-          // vscode.window.showErrorMessage("No workspace folders found.");
+          vscode.window.showErrorMessage("No workspace folders found.");
         }
-        const outputYamlFilePath = path.join(workspaceFolderPath, "output.yml");
+        const outputYamlFilePath = path.join(workspaceFolderPath, "config.yml");
 
         switch (command) {
           case "generate":
-            // Code that should run in response to the hello message command
-            window.showInformationMessage("recieved generate message from webview.");
             fs.writeFile(outputYamlFilePath, configInfo, (err) => {
               if (err) {
-                vscode.window.showErrorMessage("Failed to create output.yaml file: " + err.message);
+                vscode.window.showErrorMessage("Failed to create config.yaml file: " + err.message);
               } else {
-                vscode.window.showInformationMessage("output.yaml file created successfully.");
+                vscode.window.showInformationMessage("config.yaml file created successfully.");
               }
             });
             return;
           // Add more switch case statements here as more webview message commands
-          // are created within the webview context (i.e. inside media/main.js)
         }
       },
       undefined,
