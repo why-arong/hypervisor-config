@@ -42,7 +42,7 @@ export function Host() {
           </div>
 
           <div>
-            <VSCodeButton appearance="secondary">Load</VSCodeButton>
+            <VSCodeButton appearance="primary">Load</VSCodeButton>
           </div>
         </div>
       </section>
