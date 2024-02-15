@@ -7,9 +7,13 @@ import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 // import * as vscode from "vscode";
 import { useContext } from "react";
 import { YamlContext } from "./context/YamlContext";
+import { useState } from "react";
+import { VMSelector } from "./components/VMSelector";
 
 export default function PassThrough() {
   const { yamlData, setYamlData } = useContext(YamlContext);
+  const [vmCount, setVMCount] = useState(yamlData.domains.length);
+
   const configInfo = JSON.stringify(yamlData);
   const handleGenerator = () => {
     vscode.postMessage({
@@ -23,7 +27,9 @@ export default function PassThrough() {
       <h2>Passthrough</h2>
       <div className="col-container">
         <div className="row-container">
-          <div className="col-container">
+          <VMSelector vmCount={vmCount}></VMSelector>
+
+          <div className="col-container vmWrapper">
             <Info entry={yamlData.vm0.entry}></Info>
             <Memory></Memory>
             <Devices></Devices>

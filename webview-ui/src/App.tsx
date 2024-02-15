@@ -6,6 +6,7 @@ import PassThrough from "./PassThrough";
 import { useState, useEffect } from "react";
 import { initialData } from "./data/initialData";
 import { YamlContext } from "./context/YamlContext";
+import { Title } from "./components/Title";
 
 function App() {
   const [yamlData, setYamlData] = useState(initialData);
@@ -23,7 +24,7 @@ function App() {
   return (
     <YamlContext.Provider value={value}>
       <main>
-        <h1> Perseous </h1>
+        <Title title={"Settings"}></Title>
         <Menu></Menu>
         <Host></Host>
         <PassThrough></PassThrough>
