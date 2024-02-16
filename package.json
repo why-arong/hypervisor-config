@@ -10,18 +10,10 @@
   "contributes": {
     "commands": [
       {
-        "command": "perseous.showUI",
-        "title": "perseous"
+        "command": "perseous.hypervisorConfig",
+        "title": "hypervisorConfig"
       }
-    ],
-    "views": {
-      "explorer": [
-        {
-          "id": "myExtension",
-          "name": "My Extension"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "install:all": "npm install && cd webview-ui && npm install",
