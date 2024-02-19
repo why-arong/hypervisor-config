@@ -4,17 +4,17 @@ import { Memory } from "./demos/Memory";
 import { Devices } from "./demos/Devices";
 import { PhysicalResources } from "./demos/PhysicalResources";
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
-// import * as vscode from "vscode";
-import { useContext } from "react";
-import { YamlContext } from "./context/YamlContext";
 import { useState } from "react";
 import { VMSelector } from "./components/VMSelector";
 
-export default function PassThrough() {
-  const { yamlData, setYamlData } = useContext(YamlContext);
-  const [vmCount, setVMCount] = useState(yamlData.domains.length);
+interface PassThroughProps {
+  configData: any;
+}
 
-  const configInfo = JSON.stringify(yamlData);
+export default function PassThrough({ configData }: PassThroughProps) {
+  const [vmCount, setVMCount] = useState(configData.domains.length);
+
+  const configInfo = JSON.stringify(configData);
   const handleGenerator = () => {
     vscode.postMessage({
       command: "generate",
@@ -30,7 +30,7 @@ export default function PassThrough() {
           <VMSelector vmCount={vmCount}></VMSelector>
 
           <div className="col-container vmWrapper">
-            <Info entry={yamlData.vm0.entry}></Info>
+            <Info entry={configData.vm0.entry}></Info>
             <Memory></Memory>
             <Devices></Devices>
           </div>
