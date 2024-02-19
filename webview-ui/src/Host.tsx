@@ -1,20 +1,23 @@
 import { VSCodeDropdown, VSCodeOption, VSCodeButton } from "@vscode/webview-ui-toolkit/react";
-import { useState, useContext } from "react";
-import { YamlContext } from "./context/YamlContext";
+import { useState } from "react";
 
 const vendorOption = ["ST", "NXP"];
 
-export function Host() {
-  const { yamlData, setYamlData } = useContext(YamlContext);
+interface HostProps {
+  configData: any;
+  onVendorClick: (data: any) => void;
+}
+
+export function Host({ configData, onVendorClick }: HostProps) {
   const [deviceOptions, setDeviceOptions] = useState(["SR6X7"]);
   const handleVendorChange = (event: any) => {
     const selectedValue = event.target.value;
     if (selectedValue === "ST") {
       setDeviceOptions(["SR6x7"]);
-      setYamlData({ ...yamlData, vendor: "ST" });
+      onVendorClick({ vendor: "ST" });
     } else if (selectedValue === "NXP") {
       setDeviceOptions(["S32E270", "S32E275"]);
-      setYamlData({ ...yamlData, vendor: "NXP" });
+      onVendorClick({ vendor: "NXP" });
     }
   };
   return (

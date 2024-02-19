@@ -5,30 +5,31 @@ import Menu from "./Menu";
 import PassThrough from "./PassThrough";
 import { useState, useEffect } from "react";
 import { initialData } from "./data/initialData";
-import { YamlContext } from "./context/YamlContext";
 import { Title } from "./components/Title";
 
 function App() {
-  const [yamlData, setYamlData] = useState(initialData);
-  const value = { yamlData, setYamlData };
+  const [configData, setConfigData] = useState(initialData);
   useEffect(() => {
     window.addEventListener("message", (event) => {
       const message = event.data;
       switch (message.command) {
         case "init":
-          setYamlData(JSON.parse(message.data));
+          setConfigData(JSON.parse(message.data));
           break;
       }
     });
   }, []);
+  const handleConfigData = (data: any) => {
+    setConfigData({ ...configData, ...data });
+  };
+
   return (
-    <YamlContext.Provider value={value}>
-      <main>
-        <Title title={"Settings"}></Title>
-        <Menu></Menu>
-        <Host></Host>
-        <PassThrough></PassThrough>
-        {/* <section className="component-row">
+    <main>
+      <Title title={"Settings"}></Title>
+      <Menu></Menu>
+      <Host onVendorClick={handleConfigData} configData={configData}></Host>
+      <PassThrough configData={configData}></PassThrough>
+      {/* <section className="component-row">
         <DividerDemo></DividerDemo>
         <LinkDemo></LinkDemo>
       </section>
@@ -44,8 +45,7 @@ function App() {
         <TextAreaDemo></TextAreaDemo>
         <TextFieldDemo></TextFieldDemo>
       </section> */}
-      </main>
-    </YamlContext.Provider>
+    </main>
   );
 }
 
