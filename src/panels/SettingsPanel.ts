@@ -161,15 +161,14 @@ export class SettingsPanel {
         const command = message.command;
         let configInfo = message.configInfo;
         const parsed = JSON.parse(configInfo);
+        console.log(parsed);
         configInfo = yaml.dump(parsed, {
-          lineWidth: -1,
-          noCompatMode: true,
-          noArrayIndent: true,
           indent: 2,
           styles: {
             "!!int": "hexadecimal",
           },
         });
+        console.log(configInfo);
         const workspaceFolders = vscode.workspace.workspaceFolders;
         let workspaceFolderPath = "";
         if (workspaceFolders && workspaceFolders.length > 0) {

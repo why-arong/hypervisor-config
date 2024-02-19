@@ -3,12 +3,11 @@ import { VSCodeButton } from "@vscode/webview-ui-toolkit/react";
 
 interface VMSelectorProps {
   vmCount: number;
+  onVMClick: (vm: number) => void;
 }
 
-export function VMSelector({ vmCount }: VMSelectorProps) {
-  const [vmButtons, setVmButtons] = useState(
-    Array.from({ length: vmCount }, (_, index) => index + 1)
-  );
+export function VMSelector({ vmCount, onVMClick }: VMSelectorProps) {
+  const [vmButtons, setVmButtons] = useState(Array.from({ length: vmCount }, (_, index) => index));
 
   const addVM = () => {
     setVmButtons([...vmButtons, vmButtons.length + 1]);
@@ -21,7 +20,6 @@ export function VMSelector({ vmCount }: VMSelectorProps) {
       setVmButtons(updatedButtons);
     }
   };
-
   return (
     <div className="vm-container">
       <VSCodeButton
@@ -32,7 +30,7 @@ export function VMSelector({ vmCount }: VMSelectorProps) {
         -
       </VSCodeButton>
       {vmButtons.map((index) => (
-        <VSCodeButton className="vm-button" key={index}>
+        <VSCodeButton className="vm-button" key={index} onClick={() => onVMClick(index)}>
           VM {index}
         </VSCodeButton>
       ))}

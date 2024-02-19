@@ -1,6 +1,11 @@
 import { VSCodeTextArea } from "@vscode/webview-ui-toolkit/react";
 
-export function Memory() {
+type MemoryInfo = Array<[number, number]>;
+interface MemoryProps {
+  vmMemory: MemoryInfo;
+}
+
+export function Memory({ vmMemory }: MemoryProps) {
   return (
     <section className="component-container">
       <section className="component-example">
@@ -10,12 +15,10 @@ export function Memory() {
             <div className="row-container">
               <VSCodeTextArea
                 readOnly
-                placeholder="0x100000000
-            0x200000000"></VSCodeTextArea>
+                placeholder={`${vmMemory[0][0]}\n${vmMemory[0][1]}`}></VSCodeTextArea>
               <VSCodeTextArea
                 readOnly
-                placeholder="0x300000000
-            0x380000000"></VSCodeTextArea>
+                placeholder={`${vmMemory[1][0]}\n${vmMemory[1][1]}`}></VSCodeTextArea>
               <VSCodeTextArea readOnly placeholder=""></VSCodeTextArea>
               <VSCodeTextArea readOnly placeholder=""></VSCodeTextArea>
             </div>

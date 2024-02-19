@@ -14,11 +14,9 @@ export function Host({ configData, onVendorClick }: HostProps) {
     const selectedValue = event.target.value;
     if (selectedValue === "ST") {
       setDeviceOptions(["SR6x7"]);
-      // setYamlData({ ...configData, vendor: "ST" });
       onVendorClick({ vendor: "ST" });
     } else if (selectedValue === "NXP") {
       setDeviceOptions(["S32E270", "S32E275"]);
-      // setYamlData({ ...configData, vendor: "NXP" });
       onVendorClick({ vendor: "NXP" });
     }
   };
