@@ -10,7 +10,7 @@ export function VMSelector({ vmCount, onVMClick }: VMSelectorProps) {
   const [vmButtons, setVmButtons] = useState(Array.from({ length: vmCount }, (_, index) => index));
 
   const addVM = () => {
-    setVmButtons([...vmButtons, vmButtons.length + 1]);
+    setVmButtons([...vmButtons, vmButtons.length]);
   };
 
   const removeVM = () => {

@@ -1,11 +1,27 @@
 import { VSCodeTextArea } from "@vscode/webview-ui-toolkit/react";
+import { useState } from "react";
 
 type MemoryInfo = Array<[number, number]>;
 interface MemoryProps {
   vmMemory: MemoryInfo;
+  onMemoryChange: (data: any) => void;
 }
 
-export function Memory({ vmMemory }: MemoryProps) {
+// current memory는 2차원 배열로 구성되어 있음
+// ex) [ [0x28080000, 0x40000], [0x60000000, 0x20000] ]
+//TODO: https://react-ko.dev/learn/updating-arrays-in-state
+export function Memory({ vmMemory, onMemoryChange }: MemoryProps) {
+  const [currentMemory, setCurrentMemory] = useState(vmMemory);
+  const handleCurrentMemory = (event: any, rowIndex: number) => {
+    const value = event.target.value;
+    const memory = value.split("\n").map((str_num: string) => parseInt(str_num, 10));
+    const memoryArray = currentMemory.map((item: [number, number], itemIndex: number) =>
+      itemIndex === rowIndex ? memory : item
+    );
+    setCurrentMemory(memoryArray);
+    onMemoryChange(memoryArray);
+  };
+
   return (
     <section className="component-container">
       <section className="component-example">
@@ -13,14 +29,14 @@ export function Memory({ vmMemory }: MemoryProps) {
         <div className="row-container">
           <div className="component-container">
             <div className="row-container">
-              <VSCodeTextArea
-                readOnly
-                placeholder={`${vmMemory[0][0]}\n${vmMemory[0][1]}`}></VSCodeTextArea>
-              <VSCodeTextArea
-                readOnly
-                placeholder={`${vmMemory[1][0]}\n${vmMemory[1][1]}`}></VSCodeTextArea>
-              <VSCodeTextArea readOnly placeholder=""></VSCodeTextArea>
-              <VSCodeTextArea readOnly placeholder=""></VSCodeTextArea>
+              {vmMemory.map((row, rowIndex) => (
+                <VSCodeTextArea
+                  onChange={(event) => handleCurrentMemory(event, rowIndex)}
+                  key={`${rowIndex}`}
+                  value={`${row[0]}\n${row[1]}`}></VSCodeTextArea>
+              ))}
+              <VSCodeTextArea readOnly value=""></VSCodeTextArea>
+              <VSCodeTextArea readOnly value=""></VSCodeTextArea>
             </div>
           </div>
         </div>

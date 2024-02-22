@@ -28,7 +28,7 @@ function App() {
       <Title title={"Settings"}></Title>
       <Menu></Menu>
       <Host onVendorClick={handleConfigData} configData={configData}></Host>
-      <PassThrough configData={configData}></PassThrough>
+      <PassThrough setConfigData={setConfigData} configData={configData}></PassThrough>
       {/* <section className="component-row">
         <DividerDemo></DividerDemo>
         <LinkDemo></LinkDemo>
