@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import { VMSelector } from "./components/VMSelector";
 interface PassThroughProps {
   configData: any;
+  setConfigData: (data: any) => void;
 }
 
-export default function PassThrough({ configData }: PassThroughProps) {
-  const [vmCount, setVMCount] = useState(configData.domains.length);
+export default function PassThrough({ configData, setConfigData }: PassThroughProps) {
   const [selectedVM, setSelectedVM] = useState(0);
   // configData[`${vmCount}`];
   const configInfo = JSON.stringify(configData);
@@ -24,17 +24,29 @@ export default function PassThrough({ configData }: PassThroughProps) {
   const handleVMClick = (vm: number) => {
     setSelectedVM(vm);
   };
+  const handleMemorySettings = (vmMemory: any) => {
+    const vmKey = `vm${selectedVM}`;
+    setConfigData({
+      ...configData,
+      [vmKey]: {
+        ...configData[vmKey],
+        memory: vmMemory,
+      },
+    });
+  };
   return (
     <div className="component-container">
       <h2>Passthrough</h2>
       <h4>VM {selectedVM}</h4>
       <div className="col-container">
         <div className="row-container">
-          <VMSelector vmCount={vmCount} onVMClick={handleVMClick}></VMSelector>
+          <VMSelector vmCount={configData.domains.length} onVMClick={handleVMClick}></VMSelector>
 
           <div className="col-container vmWrapper">
             <Info entry={configData[`vm${selectedVM}`]["entry"]}></Info>
-            <Memory vmMemory={configData[`vm${selectedVM}`]["memory"]}></Memory>
+            <Memory
+              onMemoryChange={handleMemorySettings}
+              vmMemory={configData[`vm${selectedVM}`]["memory"]}></Memory>
             <Devices></Devices>
           </div>
           {/* <PhysicalResources></PhysicalResources> */}
