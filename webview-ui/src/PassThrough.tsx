@@ -24,13 +24,23 @@ export default function PassThrough({ configData, setConfigData }: PassThroughPr
   const handleVMClick = (vm: number) => {
     setSelectedVM(vm);
   };
-  const handleMemorySettings = (vmMemory: any) => {
+  const handleMemorySettings = (vmMemory: [[number, number]]) => {
     const vmKey = `vm${selectedVM}`;
     setConfigData({
       ...configData,
       [vmKey]: {
         ...configData[vmKey],
         memory: vmMemory,
+      },
+    });
+  };
+  const handleEntry = (entry: number) => {
+    const vmKey = `vm${selectedVM}`;
+    setConfigData({
+      ...configData,
+      [vmKey]: {
+        ...configData[vmKey],
+        entry,
       },
     });
   };
@@ -43,7 +53,7 @@ export default function PassThrough({ configData, setConfigData }: PassThroughPr
           <VMSelector vmCount={configData.domains.length} onVMClick={handleVMClick}></VMSelector>
 
           <div className="col-container vmWrapper">
-            <Info entry={configData[`vm${selectedVM}`]["entry"]}></Info>
+            <Info onEntryChange={handleEntry} entry={configData[`vm${selectedVM}`]["entry"]}></Info>
             <Memory
               onMemoryChange={handleMemorySettings}
               vmMemory={configData[`vm${selectedVM}`]["memory"]}></Memory>
